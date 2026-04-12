@@ -3,7 +3,11 @@
     "allow": [
       "Bash(git add:*)",
       "Bash(git commit:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Read(//mnt/skills/**)",
+      "Read(//mnt/**)",
+      "Bash(pandoc --version)",
+      "Bash(python3 -c \"import docx\")"
     ]
   }
 }

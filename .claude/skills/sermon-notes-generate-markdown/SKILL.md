@@ -1,1 +1,1 @@
-/Users/johnny/Desktop/repo/git/johnnynguyen541/claude-code/sermon-notes-upload/SKILL.md
+/Users/johnny/Desktop/repo/git/johnnynguyen541/claude-code/sermon-notes-generate-markdown/SKILL.md

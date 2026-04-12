@@ -44,7 +44,7 @@ The output file must follow this exact structure:
 ```
 # Overview
 
-<numbered list of the pastor's main points, with indented numbered sub-points as needed. Omit all bible verse references from this section.>
+<numbered list of the pastor's main points starting at 1, with indented numbered sub-points as needed (separate set of numbers starting at 1). Omit all bible verse references from this section.>
 
 # Outline
 
@@ -57,10 +57,14 @@ Apply ALL of the following rules to the content:
 
 ### 4a. Main points → `#` heading
 - Lines that are main points get a single `#` heading.
+- It should be in the format `# <<bullet point number>>. <<main point>>`
+- each subsequent main point increments bullet point number
 - Insert one blank line after the heading line.
 
 ### 4b. Sub-points → `##` heading
 - Lines that are sub-points get a `##` heading.
+- It should be in the format `## <<bullet point number>>. <<main point>>`
+- each subsequent sub main point increments bullet point number
 - Insert one blank line after the heading line.
 
 ### 4c. Bible verses
