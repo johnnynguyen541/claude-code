@@ -1,6 +1,6 @@
 ---
 name: sermon-notes-generate-markdown
-description: Convert a pastor's sermon notes (.md, .doc, .docx) into a formatted final markdown file following the sermon notes template. Use when the user invokes /sermon-notes-generate-markdown.
+description: Convert a pastor's sermon notes (.md, .doc, .docx, .eml) into a formatted final markdown file following the sermon notes template. Use when the user invokes /sermon-notes-generate-markdown.
 disable-model-invocation: true
 allowed-tools: Bash, Read, Write
 ---
@@ -13,11 +13,11 @@ Convert a pastor's sermon notes into a clean, formatted final markdown file.
 
 If $ARGUMENTS is provided, use it as the file path. Otherwise, ask the user:
 
-> Please provide the full path to the pastor's sermon notes file. Supported formats: `.md`, `.doc`, `.docx`
+> Please provide the full path to the pastor's sermon notes file. Supported formats: `.md`, `.doc`, `.docx`, `.eml`
 
 Validate:
 - File must exist
-- Extension must be `.md`, `.doc`, or `.docx`
+- Extension must be `.md`, `.doc`, `.docx`, or `.eml`
 - If invalid, tell the user and stop
 
 ## Step 2: Extract the content
@@ -34,6 +34,37 @@ If `textutil` fails, inform the user and suggest installing `pandoc` via `brew i
 ```bash
 pandoc "<file_path>" -t plain
 ```
+
+**If `.eml`**: Extract only the plain-text message body using Python's built-in `email` module (handles `quoted-printable` decoding automatically). Save the result as `<basename>.md` in the same directory, then use that `.md` file for all subsequent steps.
+
+```bash
+python3 - << 'EOF'
+import email, sys
+
+eml_path = "<file_path>"
+md_path = "<same_directory>/<basename>.md"
+
+with open(eml_path, 'rb') as f:
+    msg = email.message_from_bytes(f.read())
+
+body = None
+for part in msg.walk():
+    if part.get_content_type() == 'text/plain':
+        body = part.get_payload(decode=True).decode('utf-8', errors='replace')
+        break
+
+if body is None:
+    print("ERROR: No text/plain part found in EML", file=sys.stderr)
+    sys.exit(1)
+
+with open(md_path, 'w', encoding='utf-8') as f:
+    f.write(body)
+
+print(f"Extracted body to: {md_path}")
+EOF
+```
+
+After extraction, read the resulting `.md` file and proceed with Step 3 using `<basename>.md` as the source.
 
 ## Step 3: Build the final file
 
