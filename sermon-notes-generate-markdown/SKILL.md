@@ -96,3 +96,8 @@ Every line that contains words or numbers must start at column 1. Strip any lead
 Write the formatted content to `<<basename>>-final.md` in the same directory as the source file.
 
 Confirm to the user: output file path and a brief summary (e.g., number of main points found).
+
+## Step 6: display the output file
+Run cat command on the `<<basename>>-final.md` in the claude terminal, so the user has an easy access point to copy and paste this to clipboard, so we can put this into the final sermon notes.
+
+Tell the user: to copy the output to clipboard, press **CTRL-O** in the Claude terminal.
