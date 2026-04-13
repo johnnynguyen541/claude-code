@@ -7,7 +7,8 @@
       "Read(//mnt/skills/**)",
       "Read(//mnt/**)",
       "Bash(pandoc --version)",
-      "Bash(python3 -c \"import docx\")"
+      "Bash(python3 -c \"import docx\")",
+      "Bash(git:*)"
     ]
   }
 }
