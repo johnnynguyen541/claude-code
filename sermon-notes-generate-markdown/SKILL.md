@@ -172,4 +172,4 @@ Confirm to the user: output file path and a brief summary (e.g., number of main 
 ## Step 6: display the output file
 Run cat command on the `<<basename>>-final.md` in the claude terminal, so the user has an easy access point to copy and paste this to clipboard, so we can put this into the final sermon notes.
 
-Tell the user: to copy the output to clipboard, press **CTRL-O** in the Claude terminal.
+Tell the user: to copy the output to clipboard, press **'c' and then enter** in the Claude terminal.
