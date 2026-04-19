@@ -8,7 +8,10 @@
       "Read(//mnt/**)",
       "Bash(pandoc --version)",
       "Bash(python3 -c \"import docx\")",
-      "Bash(git:*)"
+      "Bash(git:*)",
+      "Bash(grep -E '\\(/|\\\\.md$|\\\\.doc$|\\\\.docx$|\\\\.eml$\\)')",
+      "Bash(textutil *)",
+      "Bash(pbcopy *)"
     ]
   }
 }
