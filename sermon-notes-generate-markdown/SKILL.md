@@ -131,4 +131,18 @@ Confirm to the user: output file path and a brief summary (e.g., number of main 
 ## Step 6: display the output file
 Run cat command on the `<<basename>>-final.md` in the claude terminal, so the user has an easy access point to copy and paste this to clipboard, so we can put this into the final sermon notes.
 
-Tell the user: to copy the output to clipboard, press **CTRL-O** in the Claude terminal.
+## Step 7: Offer clipboard copy
+
+After displaying the file, ask the user:
+
+> Type **c** and press Enter to copy the markdown to your clipboard, or press Enter to finish.
+
+Wait for the user's response. If the user types `c` (case-insensitive), run:
+
+```bash
+pbcopy < "<output_file_path>"
+```
+
+Then confirm: "Copied to clipboard!"
+
+If the user types anything else or just presses Enter, finish without copying.
