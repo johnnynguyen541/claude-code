@@ -2,7 +2,7 @@
 name: sermon-notes-generate-markdown
 description: Convert a pastor's sermon notes (.md, .doc, .docx, .eml) into a formatted final markdown file following the sermon notes template. Use when the user invokes /sermon-notes-generate-markdown.
 disable-model-invocation: true
-allowed-tools: Bash, Read, Write
+allowed-tools: Bash, Read, Write, AskUserQuestion
 ---
 
 # Sermon Notes → Markdown
@@ -11,11 +11,52 @@ Convert a pastor's sermon notes into a clean, formatted final markdown file.
 
 ## Step 1: Get the file path
 
-If $ARGUMENTS is provided, use it as the file path. Otherwise, ask the user:
+**If $ARGUMENTS is provided**: use it as the file path. Validate:
+- File must exist
+- Extension must be `.md`, `.doc`, `.docx`, or `.eml`
+- If invalid, tell the user and stop
 
-> Please provide the full path to the pastor's sermon notes file. Supported formats: `.md`, `.doc`, `.docx`, `.eml`
+**If $ARGUMENTS is NOT provided**: start an interactive file browser beginning at `~/Downloads`.
 
-Validate:
+### Interactive file browser
+
+Run the following bash to list the current directory's contents, then present the results to the user:
+
+```bash
+ls -1p "<current_dir>"
+```
+
+Display to the user:
+- A numbered list of **subdirectories** (entries ending in `/`) prefixed with `[DIR]`
+- A numbered list of **supported files** (`.md`, `.doc`, `.docx`, `.eml` only) — omit all other files
+- If the current directory is not `~/Downloads`, also show `[..] Go up one level` as an option
+- Always show `[x] Exit` as the last option
+
+Example display format:
+```
+📂 ~/Downloads
+
+Folders:
+  1. [DIR] sermons/
+  2. [DIR] old-notes/
+
+Files:
+  3. sermon-2.eml
+  4. notes-draft.docx
+
+  u. Go up one level
+  x. Exit
+```
+
+Wait for the user to type a number, `u`, or `x`:
+- If the user types a number corresponding to a `[DIR]`: navigate into that subdirectory and repeat the browser loop.
+- If the user types a number corresponding to a file: use that file's full path as the selected file and proceed to validation below.
+- If the user types `u`: navigate to the parent directory and repeat the browser loop.
+- If the user types `x`: tell the user "Exiting sermon notes skill." and stop — do not proceed further.
+
+Repeat the browser loop until the user selects a file or exits.
+
+**Validation** (applies to both argument-supplied and browser-selected paths):
 - File must exist
 - Extension must be `.md`, `.doc`, `.docx`, or `.eml`
 - If invalid, tell the user and stop
